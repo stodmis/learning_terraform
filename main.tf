@@ -11,17 +11,12 @@ data "aws_ami" "app_ami" {
     values = ["hvm"]
   }
 
-  filter {
-    name   = "architecture"
-    values = ["arm64"]
-  }
-
   owners = ["979382823631"] # Bitnami
 }
 
 resource "aws_instance" "web" {
   ami           = data.aws_ami.app_ami.id
-  instance_type = "t4g.micro"
+  instance_type = "t3.micro"
 
   tags = {
     Name = "HelloWorld"
