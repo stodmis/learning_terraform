@@ -11,6 +11,11 @@ data "aws_ami" "app_ami" {
     values = ["hvm"]
   }
 
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
   owners = ["979382823631"] # Bitnami
 }
 
