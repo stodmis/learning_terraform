@@ -13,7 +13,7 @@ data "aws_ami" "app_ami" {
 
   filter {
     name   = "architecture"
-    values = ["x86_64"]
+    values = ["arm64"]
   }
 
   owners = ["979382823631"] # Bitnami
