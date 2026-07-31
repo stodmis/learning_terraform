@@ -25,8 +25,6 @@ resource "aws_instance" "blog" {
 
   subnet_id = module.blog_vpc.public_subnets[0]
 
-  availability_zone = module.blog_vpc.azs[0]
-
   tags = {
     Name = "HelloWorld!"
   }
