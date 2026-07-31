@@ -111,3 +111,49 @@ resource "aws_lb_target_group_attachment" "blog" {
   target_id        = aws_instance.blog.id
   port             = 80
 }
+
+module "blog_asg" {
+  source  = "terraform-aws-modules/autoscaling/aws"
+
+  # Autoscaling group
+  name = "blog-asg"
+
+  min_size                  = 1
+  max_size                  = 2
+  desired_capacity          = 1
+  vpc_zone_identifier       = module.blog_vpc.public_subnets
+
+  # Launch template
+  launch_template_name        = "blog-asg"
+  launch_template_description = "Launch template example"
+  update_default_version      = true
+
+  image_id          = "ami-02b64aa047cb5edf5"
+  instance_type     = "t3.micro"
+
+  traffic_source_attachments = {
+    blog-alb = {
+      traffice_source_identifier = aws_lb_target_group.blog.arn
+    }
+  }
+
+
+  tag_specifications = [
+    {
+      resource_type = "instance"
+      tags          = { WhatAmI = "Instance" }
+    },
+    {
+      resource_type = "volume"
+      tags          = { WhatAmI = "Volume" }
+    },
+    {
+      resource_type = "spot-instances-request"
+      tags          = { WhatAmI = "SpotInstanceRequest" }
+    }
+  ]
+
+  tags = {
+    Environment = "dev"
+  }
+}
