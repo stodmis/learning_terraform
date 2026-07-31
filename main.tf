@@ -3,7 +3,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_instance" "blog" {
-  ami           = ami-02b64aa047cb5edf5
+  ami           = "ami-02b64aa047cb5edf5"
   instance_type = var.instance_type
 
   vpc_security_group_ids = [module.blog_sg.id]
