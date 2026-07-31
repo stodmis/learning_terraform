@@ -6,7 +6,7 @@ module "blog_vpc" {
 
   azs             = ["us-east-1a", "us-east-1b", "us-east-1c"]
   private_subnets = ["${var.environment.network_prefix}.1.0/24", "${var.environment.network_prefix}.2.0/24", "${var.environment.network_prefix}.3.0/24"]
-  public_subnets  = ["${var.environment.network_prefix}.101.0/24", "10.${var.environment.network_prefix}0.102.0/24", "${var.environment.network_prefix}.103.0/24"]
+  public_subnets  = ["${var.environment.network_prefix}.101.0/24", "10.${var.environment.network_prefix}.102.0/24", "${var.environment.network_prefix}.103.0/24"]
 
   enable_nat_gateway = true
   enable_vpn_gateway = true
@@ -42,7 +42,7 @@ module "blog_sg" {
     https = {
       from_port   = 443
       ip_protocol = "tcp"
-      cidr_ipv4   = "10.0.0.0/16"
+      cidr_ipv4   = "${var.environment.network_prefix}.0.0/16"
       description = "HTTPS from internal"
     }
     self-all = {
