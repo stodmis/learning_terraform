@@ -109,7 +109,7 @@ module "blog_asg" {
   instance_type     = var.instance_type
 
   traffic_source_attachments = {
-    var.environment.name-blog-alb = {
+    "${var.environment.name}-blog-alb" = {
       traffic_source_identifier = aws_lb_target_group.blog-tg.arn
     }
   }
