@@ -17,19 +17,6 @@ module "blog_vpc" {
   }
 }
 
-resource "aws_instance" "blog" {
-  ami           = "ami-02b64aa047cb5edf5"
-  instance_type = var.instance_type
-
-  vpc_security_group_ids = [module.blog_sg.id]
-
-  subnet_id = module.blog_vpc.public_subnets[0]
-
-  tags = {
-    Name = "HelloWorld!"
-  }
-}
-
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "6.0.0"
@@ -118,9 +105,10 @@ module "blog_asg" {
   max_size                  = var.max_size
   desired_capacity          = var.desired_size
   vpc_zone_identifier       = module.blog_vpc.public_subnets
+  security_groups           = module.blog_sg.id
 
   # Launch template
-  launch_template_name        = "blog-asg"
+  launch_template_name        = "blog-template"
   launch_template_description = "Launch template example"
   update_default_version      = true
 
@@ -129,7 +117,7 @@ module "blog_asg" {
 
   traffic_source_attachments = {
     blog-alb = {
-      traffic_source_identifier = aws_lb_target_group.blog.arn
+      traffic_source_identifier = aws_lb_target_group.blog-tg.arn
     }
   }
 
