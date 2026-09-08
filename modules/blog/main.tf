@@ -1,4 +1,4 @@
-module "blog_vpc" {
+module "blog-vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
   name = var.environment.name
@@ -17,13 +17,13 @@ module "blog_vpc" {
   }
 }
 
-module "blog_sg" {
+module "blog-sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "6.0.0"
-  name    = "blog_sg"
+  name    = "blog-sg"
   region  = "us-east-1"
 
-  vpc_id = module.blog_vpc.vpc_id
+  vpc_id = module.blog-vpc.vpc_id
 
   ingress_rules = {
     https = {
@@ -47,15 +47,15 @@ module "blog_sg" {
   }
 }
 
-module "blog_alb" {
+module "blog-alb" {
   source = "terraform-aws-modules/alb/aws"
 
-  name    = "blog_alb"
-  vpc_id  = module.blog_vpc.vpc_id
-  subnets = module.blog_vpc.public_subnets
+  name    = "blog-alb"
+  vpc_id  = module.blog-vpc.vpc_id
+  subnets = module.blog-vpc.public_subnets
 
   # Security Group
-  security_groups = [module.blog_sg.id]
+  security_groups = [module.blog-sg.id]
 
   listeners = {
     blog-http = {
@@ -82,11 +82,11 @@ module "blog_alb" {
   }
 }
 
-resource "aws_lb_target_group" "blog_tg" {
-  name     = "blog_tg"
+resource "aws_lb_target_group" "blog-tg" {
+  name     = "blog-tg"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = module.blog_vpc.vpc_id
+  vpc_id   = module.blog-vpc.vpc_id
 }
 
 module "blog_asg" {

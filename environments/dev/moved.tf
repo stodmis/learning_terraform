@@ -1,24 +1,24 @@
 moved {
-  from = module.blog_vpc
-  to   = module.dev.module.blog_vpc
+  from = module.blog-vpc
+  to   = module.dev.module.blog-vpc
 }
 
 moved {
-  from = module.blog_sg
-  to   = module.dev.module.blog_sg
+  from = module.blog-sg
+  to   = module.dev.module.blog-sg
 }
 
 moved {
-  from = module.blog_alb
-  to   = module.dev.module.blog_alb
+  from = module.blog-alb
+  to   = module.dev.module.blog-alb
 }
 
 moved {
-  from = module.blog_asg
-  to   = module.dev.module.blog_asg
+  from = module.blog-asg
+  to   = module.dev.module.blog-asg
 }
 
 moved {
-  from = aws_lb_target_group.blog_tg
-  to   = module.dev.aws_lb_target_group.blog_tg
+  from = aws_lb_target_group.blog-tg
+  to   = module.dev.aws_lb_target_group.blog-tg
 }
