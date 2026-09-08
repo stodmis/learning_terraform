@@ -98,8 +98,8 @@ module "blog_asg" {
   min_size                  = var.min_size
   max_size                  = var.max_size
   desired_capacity          = var.desired_size
-  vpc_zone_identifier       = module.blog_vpc.public_subnets
-  security_groups           = module.blog_sg.id
+  vpc_zone_identifier       = module.blog-vpc.public_subnets
+  security_groups           = module.blog-sg.id
 
   # Launch template
   launch_template_name        = "blog-template"
@@ -110,7 +110,7 @@ module "blog_asg" {
 
   traffic_source_attachments = {
     blog-alb = {
-      traffic_source_identifier = aws_lb_target_group.blog_tg.arn
+      traffic_source_identifier = aws_lb_target_group.blog-tg.arn
     }
   }
 
