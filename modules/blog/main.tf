@@ -70,16 +70,12 @@ module "blog_alb" {
   # Security Group
   security_groups = [module.blog_sg.id]
 
-  access_logs = {
-    bucket = "my-alb-logs"
-  }
-
   listeners = {
-    ex-http-https-redirect = {
+    blog-http = {
       port     = 80
       protocol = "HTTP"
       forward = {
-        target_group_arn = aws_lb_target_group.blog.arn
+        target_group_arn = aws_lb_target_group.blog-tg.arn
       }
     }
   }
@@ -99,15 +95,15 @@ module "blog_alb" {
   }
 }
 
-resource "aws_lb_target_group" "blog" {
-  name     = "blog"
+resource "aws_lb_target_group" "blog-tg" {
+  name     = "blog-tg"
   port     = 80
   protocol = "HTTP"
   vpc_id   = module.blog_vpc.vpc_id
 }
 
-resource "aws_lb_target_group_attachment" "blog" {
-  target_group_arn = aws_lb_target_group.blog.arn
+resource "aws_lb_target_group_attachment" "blog-tg-attachment" {
+  target_group_arn = aws_lb_target_group.blog-tg.arn
   target_id        = aws_instance.blog.id
   port             = 80
 }
